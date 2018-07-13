@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bitmovin Background Video on Responsive Bootstrap 4 page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://bitmovin-a.akamaihd.net/bitmovin-player/stable/7.7/bitmovinplayer.js"></script>
+</head>
+
+<body>
+<!--header -->
+<div class="jumbotron text-center">
+  <div class="header-text">Header Text</div>
+  <div id="player"></div>
+</div>
+
+ <script>
+ var conf = {
+   key: '<your-license-key-here>',
+   source: {
+     dash: 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+     hls: 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
+     progressive: 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/MI201109210084_mpeg-4_hd_high_1080p25_10mbits.mp4',
+     poster: 'https://media.giphy.com/media/5wFGNEqoIuQlwyjxOB/giphy.gif'
+   },
+   playback: {
+        //bellow will autoplay video and mute it
+        autoplay: true,
+        muted: true
+   },
+   events: {
+        //will start playback again when video finishes playing
+        onPlaybackFinished: function () {
+            this.play();
+        }
+   }
+ };
+ var player = bitmovin.player('player');
+
+ player.setup(conf).then(
+   function(value) {
+     // Success
+     console.log('Successfully created bitmovin player instance');
+   },
+   function(reason) {
+     // Error!
+     console.log('Error while creating bitmovin player instance');
+   }
+ );
+ </script>
+
+ <style>
+ .bmpui-ui-uicontainer {
+   /* eliminates the video container, which gets rid of controls and logo */
+   display: none;
+ }
+
+ .bitmovinplayer-container {
+   /* will allow player to be under header text */
+   position: relative;
+ }
+
+ .header-text{
+   /* positioning and styling for header text */
+   padding-top: 50px;
+   margin-left: auto;
+   margin-right: auto;
+   width: 96%;
+   font-size: 50px;
+   color: #ffff00;
+
+   /* allows header text to be above player container */
+   position: absolute;
+   z-index: 1;
+ }
+ </style>
+
+
+<!-- content -->
+<div class="container">
+  <div class="row">
+   <div class="col text-center">
+      <h2>Content Title</h2>
+      <p>Some Text/Content</p>
+      <br>
+      <br>
+    </div>
+  </div>
+</div>
+
+<!-- footer -->
+<div class="jumbotron text-center" style="margin-bottom:0">
+  <p>Footer</p>
+</div>
+</body>
+</html>
